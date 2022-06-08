@@ -1,4 +1,5 @@
 import React, { useEffect , useState } from "react";
+import AddMoneyForm from "./AddMoneyForm";
 import SushiContainer from "./SushiContainer";
 import Table from "./Table";
 
@@ -7,6 +8,8 @@ function App() {
   const [ fourSushis , setFourSushis ] = useState([]);
   const [ plates , setPlates ] = useState([]);
   const [ wallet , setWallet ] = useState(100);
+
+  console.log(sushis)
 
   const API = "http://localhost:3001/sushis";
 
@@ -35,12 +38,18 @@ function App() {
       setWallet(wallet - sushiToBeEaten.price);
     }
   };
-  
+
+  function addMoneyToWallet(e) {
+    e.preventDefault()
+    setWallet(wallet + parseInt(e.target[0].value))
+    e.target.reset()
+  }
 
   return (
     <div className="app">
-      <SushiContainer sushis={fourSushis} onEatSushi={eatSushi} moreSushi={moreSushi} wallet={wallet}/>
+      <SushiContainer sushis={sushis} fourSushis={fourSushis} onEatSushi={eatSushi} moreSushi={moreSushi} wallet={wallet}/>
       <Table plates={plates} wallet={wallet}/>
+      <AddMoneyForm onAddMoney={addMoneyToWallet}/>
     </div>
   );
 }
